@@ -1,94 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Finalizar Compra</title>
+  <meta charset="UTF-8">
+  <title>Confirmação</title>
 
-  <!-- TikTok Pixel Base Code -->
+  <!-- TikTok Pixel -->
   <script>
     !function (w, d, t) {
       w.TiktokAnalyticsObject = t;
       var ttq = w[t] = w[t] || [];
       ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
-      ttq.setAndDefer = function(t, e) { t[e] = function() { t.push([e].concat(Array.prototype.slice.call(arguments,0))) } };
-      for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
-      ttq.load = function(e, n) {
+      ttq.setAndDefer = function (t, e) { t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } };
+      for (var i = 0; i < ttq.methods.length; i++) { ttq.setAndDefer(ttq, ttq.methods[i]) }
+      ttq.instance = function (t) { var e = ttq._i[t] || []; for (var n = 0; n < ttq.methods.length; n++) { ttq.setAndDefer(e, ttq.methods[n]) } return e };
+      ttq.load = function (e, n) {
         var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
         ttq._i = ttq._i || {};
         ttq._i[e] = [];
         ttq._i[e]._u = i;
         ttq._t = ttq._t || {};
         ttq._t[e] = +new Date;
-        ttq.loadScript = function(t, e) {
-          var n = d.createElement("script");
-          n.type = "text/javascript";
-          n.async = !0;
-          n.src = t;
-          var i = d.getElementsByTagName("script")[0];
-          i.parentNode.insertBefore(n, i);
-        };
-        ttq.loadScript(i);
+        ttq._o = ttq._o || {};
+        ttq._o[e] = n || {};
+        var o = document.createElement("script");
+        o.type = "text/javascript";
+        o.async = !0;
+        o.src = "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=" + e + "&lib=" + t;
+        var a = document.getElementsByTagName("script")[0];
+        a.parentNode.insertBefore(o, a)
       };
-      ttq.load('D47C8FBC77U2P8MCK090'); /* SEU PIXEL */
+      ttq.load('D47C8FBC77U2P8MCK090');  // 🔥 SEU PIXEL ID CORRETO
       ttq.page();
     }(window, document, 'ttq');
   </script>
 
   <style>
+    body {
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial;
+    }
     button {
-      padding: 16px 22px;
-      background: #1a73e8;
+      padding: 20px 40px;
+      font-size: 22px;
       border: none;
-      color: white;
-      font-size: 20px;
-      border-radius: 10px;
+      border-radius: 8px;
+      background: #000;
+      color: #fff;
       cursor: pointer;
     }
+    button:hover {
+      opacity: 0.8;
+    }
   </style>
-
 </head>
+
 <body>
 
-  <h1>Finalizar Compra</h1>
-  <p>Clique no botão abaixo para concluir sua compra:</p>
-
-  <button id="btnPurchase">Concluir Compra</button>
+  <button id="purchaseBtn">FINALIZAR COMPRA</button>
 
   <script>
-    document.getElementById("btnPurchase").addEventListener("click", function () {
+    // ⬇ Captura e salva o ttclid
+    const params = new URLSearchParams(window.location.search);
+    const ttclid = params.get("ttclid");
+    if (ttclid) localStorage.setItem("ttclid", ttclid);
 
-      try {
+    const savedTtclid = ttclid || localStorage.getItem("ttclid");
 
-        // Captura ttclid
-        const urlParams = new URLSearchParams(window.location.search);
-        let ttclid = urlParams.get("ttclid") || localStorage.getItem("ttclid");
+    // ⬇ Evento de Purchase + redirect
+    document.getElementById("purchaseBtn").addEventListener("click", function () {
 
-        // Envia evento Purchase
-        ttq.track("CompletePayment", {
-          value: 09.90,                 // 🔧 valor real
-          currency: "BRL",
-          contents: [{
-            content_id: "produto_1",    // 🔧 id do produto
-            content_type: "product",
-            quantity: 1
-          }],
-          user: {
-            ttclid: ttclid || ""
-          }
-        });
+      // Envia o evento de Purchase corretamente
+      ttq.track("CompletePayment", {
+        value: 12.90,
+        currency: "BRL",
+        contents: [{ content_id: "prod001" }],
+        external_id: savedTtclid || ""
+      });
 
-        console.log("✔ Purchase enviado com sucesso!");
-
-      } catch (e) {
-        console.error("Erro ao enviar purchase:", e);
-      }
-
-      // 🔥 OPCIONAL — redirecionar após 600ms
+      // Pequeno delay para garantir envio
       setTimeout(() => {
-        window.location.href = "https://t.me/+KO_y0i7PbLE1YzNh";  // 🔧 coloque seu link final
-      }, 600);
-
+        window.location.href = "https://t.me/+KO_y0i7PbLE1YzNh";
+      }, 350);
     });
   </script>
 
 </body>
 </html>
+
