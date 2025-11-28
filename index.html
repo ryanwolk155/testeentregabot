@@ -32,44 +32,50 @@
         };
         ttq.loadScript(i);
       };
-      ttq.load('D47C8FBC77U2P8MCK090');
+      ttq.load('D47C8FBC77U2P8MCK090'); /* SEU PIXEL */
       ttq.page();
     }(window, document, 'ttq');
   </script>
 
+  <!-- SCRIPT DO PURCHASE + REDIRECT -->
   <script>
     (function() {
 
-      // 1. Recupera ttclid da URL
+      // 1. Captura ttclid da URL
       const urlParams = new URLSearchParams(window.location.search);
       let ttclid = urlParams.get("ttclid");
 
-      // 2. Se não existir, tenta recuperar do localStorage
+      // 2. Se não veio, usa o salvo no localStorage
       if (!ttclid) {
         ttclid = localStorage.getItem("ttclid");
       }
 
-      // 3. Se ainda assim não existir, não envia evento
+      // 3. Se ainda não tiver, não envia o evento
       if (!ttclid) {
         console.warn("❌ Nenhum ttclid encontrado. Purchase não enviado.");
         return;
       }
 
-      // 4. Enviar o evento de Purchase
+      // 4. Envia o evento de Purchase
       ttq.track("CompletePayment", {
-        value: 49.90,          // coloque o valor real aqui
+        value: 09.90,          // 🔧 coloque o valor real aqui
         currency: "BRL",
         contents: [{
-          content_id: "produto_1",
+          content_id: "produto_1",   // 🔧 ID do seu produto
           content_type: "product",
           quantity: 1
         }],
         user: {
-          ttclid: ttclid       // Aqui está o segredo: atribuição perfeita
+          ttclid: ttclid   // Isso garante a atribuição
         }
       });
 
       console.log("✔ Evento Purchase enviado com ttclid:", ttclid);
+
+      // 5. 🔥 Redirect após 1 segundo
+      setTimeout(() => {
+        window.location.href = "https://t.me/+KO_y0i7PbLE1YzNh";  // 🔧 coloque seu link final aqui
+      }, 1000);
 
     })();
   </script>
@@ -77,6 +83,6 @@
 </head>
 <body>
   <h1>Pagamento Confirmado</h1>
-  <p>Obrigado pela compra.</p>
+  <p>Obrigado pela sua compra.</p>
 </body>
 </html>
