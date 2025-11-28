@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Compra Confirmada</title>
+
+  <!-- TikTok Pixel Base Code -->
+  <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject = t;
+      var ttq = w[t] = w[t] || [];
+      ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+      ttq.setAndDefer = function(t, e) { t[e] = function() { t.push([e].concat(Array.prototype.slice.call(arguments,0))) } };
+      for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
+      ttq.instance = function(t) {
+        var e = ttq._i[t] || [];
+        return function(n) { return e.push([n].concat(Array.prototype.slice.call(arguments,1))) }
+      };
+      ttq.load = function(e, n) {
+        var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
+        ttq._i = ttq._i || {};
+        ttq._i[e] = [];
+        ttq._i[e]._u = i;
+        ttq._t = ttq._t || {};
+        ttq._t[e] = +new Date;
+        ttq.loadScript = function(t, e) {
+          var n = d.createElement("script");
+          n.type = "text/javascript";
+          n.async = !0;
+          n.src = t;
+          var i = d.getElementsByTagName("script")[0];
+          i.parentNode.insertBefore(n, i);
+        };
+        ttq.loadScript(i);
+      };
+      ttq.load('D47C8FBC77U2P8MCK090');
+      ttq.page();
+    }(window, document, 'ttq');
+  </script>
+
+  <script>
+    (function() {
+
+      // 1. Recupera ttclid da URL
+      const urlParams = new URLSearchParams(window.location.search);
+      let ttclid = urlParams.get("ttclid");
+
+      // 2. Se não existir, tenta recuperar do localStorage
+      if (!ttclid) {
+        ttclid = localStorage.getItem("ttclid");
+      }
+
+      // 3. Se ainda assim não existir, não envia evento
+      if (!ttclid) {
+        console.warn("❌ Nenhum ttclid encontrado. Purchase não enviado.");
+        return;
+      }
+
+      // 4. Enviar o evento de Purchase
+      ttq.track("CompletePayment", {
+        value: 49.90,          // coloque o valor real aqui
+        currency: "BRL",
+        contents: [{
+          content_id: "produto_1",
+          content_type: "product",
+          quantity: 1
+        }],
+        user: {
+          ttclid: ttclid       // Aqui está o segredo: atribuição perfeita
+        }
+      });
+
+      console.log("✔ Evento Purchase enviado com ttclid:", ttclid);
+
+    })();
+  </script>
+
+</head>
+<body>
+  <h1>Pagamento Confirmado</h1>
+  <p>Obrigado pela compra.</p>
+</body>
+</html>
