@@ -12,8 +12,14 @@
       w.TiktokAnalyticsObject = t;
       var ttq = w[t] = w[t] || [];
       ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
-      ttq.setAndDefer = function (t, e) { t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } };
-      for (var i = 0; i < ttq.methods.length; i++) { ttq.setAndDefer(ttq, ttq.methods[i]) }
+      ttq.setAndDefer = function (t, e) { 
+        t[e] = function () { 
+          t.push([e].concat(Array.prototype.slice.call(arguments, 0))) 
+        } 
+      };
+      for (var i = 0; i < ttq.methods.length; i++) { 
+        ttq.setAndDefer(ttq, ttq.methods[i]) 
+      }
       ttq.instance = function (t) { 
         var e = ttq._i[t] || []; 
         for (var n = 0; n < ttq.methods.length; n++) { 
@@ -32,37 +38,15 @@
         ttq._o[e] = n || {};
         var o = document.createElement("script");
         o.type = "text/javascript";
-        o.async = !0;
+        o.async = true;
         o.src = "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=" + e + "&lib=" + t;
         var a = document.getElementsByTagName("script")[0];
-        a.parentNode.insertBefore(o, a)
+        a.parentNode.insertBefore(o, a);
       };
       ttq.load('D47C8FBC77U2P8MCK090');
       ttq.page();
     }(window, document, 'ttq');
   </script>
-
-  <!-- ===================== -->
-  <!-- META / FACEBOOK PIXEL -->
-  <!-- ===================== -->
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}
-    (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-    fbq('init', '1598457008015839');
-    fbq('track', 'PageView');
-  </script>
-
-  <noscript>
-    <img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1598457008015839&ev=PageView&noscript=1"/>
-  </noscript>
 
   <!-- ===================== -->
   <!-- ESTILO -->
@@ -98,26 +82,20 @@
 
   <script>
     /* ==============================
-       CAPTURA DOS IDS
+       CAPTURA DO TTCLID
     ============================== */
     const params = new URLSearchParams(window.location.search);
 
-    // TikTok
     const ttclid = params.get("ttclid");
     if (ttclid) localStorage.setItem("ttclid", ttclid);
     const savedTtclid = ttclid || localStorage.getItem("ttclid");
-
-    // Facebook
-    const fbclid = params.get("fbclid");
-    if (fbclid) localStorage.setItem("fbclid", fbclid);
-    const savedFbclid = fbclid || localStorage.getItem("fbclid");
 
     /* ==============================
        EVENTO PURCHASE + REDIRECT
     ============================== */
     document.getElementById("purchaseBtn").addEventListener("click", function () {
 
-      // 🔥 TikTok
+      // 🔥 TikTok Purchase
       ttq.track("CompletePayment", {
         value: 12.90,
         currency: "BRL",
@@ -125,15 +103,7 @@
         external_id: savedTtclid || ""
       });
 
-      // 🔥 Facebook
-      fbq('track', 'Purchase', {
-        value: 12.90,
-        currency: 'BRL',
-        content_ids: ['prod001'],
-        content_type: 'product'
-      });
-
-      // Delay seguro
+      // Delay seguro para disparo do evento
       setTimeout(() => {
         window.location.href = "https://t.me/+KO_y0i7PbLE1YzNh";
       }, 400);
@@ -142,5 +112,3 @@
 
 </body>
 </html>
-
-
