@@ -5,6 +5,63 @@
   <title>Confirmação</title>
 
   <!-- ===================== -->
+  <!-- TIKTOK PIXEL -->
+  <!-- ===================== -->
+  <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject = t;
+      var ttq = w[t] = w[t] || [];
+      ttq.methods = [
+        "page","track","identify","instances","debug","on","off",
+        "once","ready","alias","group","enableCookie","disableCookie"
+      ];
+      ttq.setAndDefer = function (t, e) {
+        t[e] = function () {
+          t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+        };
+      };
+      for (var i = 0; i < ttq.methods.length; i++) {
+        ttq.setAndDefer(ttq, ttq.methods[i]);
+      }
+      ttq.instance = function (t) {
+        var e = ttq._i[t] || [];
+        for (var n = 0; n < ttq.methods.length; n++) {
+          ttq.setAndDefer(e, ttq.methods[n]);
+        }
+        return e;
+      };
+      ttq.load = function (e, n) {
+        var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
+        ttq._i = ttq._i || {};
+        ttq._i[e] = [];
+        ttq._i[e]._u = i;
+        ttq._t = ttq._t || {};
+        ttq._t[e] = +new Date;
+        ttq._o = ttq._o || {};
+        ttq._o[e] = n || {};
+        var o = document.createElement("script");
+        o.type = "text/javascript";
+        o.async = true;
+        o.src = i + "?sdkid=" + e + "&lib=" + t;
+        var a = document.getElementsByTagName("script")[0];
+        a.parentNode.insertBefore(o, a);
+      };
+
+      ttq.load('D47C8FBC77U2P8MCK090');
+      ttq.page();
+    }(window, document, 'ttq');
+  </script>
+
+  <!-- ===================== -->
+  <!-- FYCLOAK (1x apenas) -->
+  <!-- ===================== -->
+  <script>
+    window.FYCLOAK_CAMPAIGN_ID = 3528;
+    window.FYCLOAK_USER_ID = 518;
+  </script>
+  <script src="https://cdn.fycloak.com/scripts/advanced-fingerprint.js"></script>
+
+  <!-- ===================== -->
   <!-- ESTILO -->
   <!-- ===================== -->
   <style>
@@ -33,55 +90,57 @@
   </style>
 </head>
 
-<!-- ===================== -->
-<!-- FYCLOAK -->
-<!-- ===================== -->
-<script>
-  window.FYCLOAK_CAMPAIGN_ID = 3487;
-  window.FYCLOAK_USER_ID = 518;
-</script>
-<script src="https://cdn.fycloak.com/scripts/advanced-fingerprint.js"></script>
-
-<script>
-  window.FYCLOAK_CAMPAIGN_ID = 3639;
-  window.FYCLOAK_USER_ID = 518;
-</script>
-<script src="https://cdn.fycloak.com/scripts/advanced-fingerprint.js"></script>
-
-<script>
-  window.FYCLOAK_CAMPAIGN_ID = 3528;
-  window.FYCLOAK_USER_ID = 518;
-</script>
-<script src="https://cdn.fycloak.com/scripts/advanced-fingerprint.js"></script>
-
 <body>
 
-  <button id="purchaseBtn">ACESSAR GRUPO</button>
+<button id="purchaseBtn">ACESSAR GRUPO</button>
 
-  <script>
-    const btn = document.getElementById("purchaseBtn");
-    let fired = false;
+<script>
+  /* ==============================
+     EVENTO PURCHASE + REDIRECT
+  ============================== */
 
-    btn.addEventListener("click", function () {
-      if (fired) return;
-      fired = true;
+  const btn = document.getElementById("purchaseBtn");
+  let fired = false;
 
-      btn.disabled = true;
+  btn.addEventListener("click", function () {
+    if (fired) return;
+    fired = true;
+    btn.disabled = true;
 
-      // 🚀 Redirect
-      setTimeout(() => {
-        window.location.href = "https://t.me/+ixSVQhqNf8cwZjU5";
-      }, 300);
-    });
+    try {
+      ttq.track("Purchase", {
+        value: 12.90,
+        currency: "BRL",
+        event_id: "purchase_" + Date.now(),
+        contents: [
+          {
+            content_id: "prod001",
+            content_type: "product",
+            quantity: 1,
+            price: 12.90
+          }
+        ]
+      });
+    } catch (e) {
+      console.error("Erro ao disparar Purchase:", e);
+    }
 
-    // 🔁 Fallback automático
     setTimeout(() => {
-      if (!fired) {
-        window.location.href = "https://t.me/+ixSVQhqNf8cwZjU5";
-      }
-    }, 15000);
-  </script>
+      window.location.href = "https://t.me/+ixSVQhqNf8cwZjU5";
+    }, 800);
+  });
+
+  /* ==============================
+     FALLBACK DE SEGURANÇA
+  ============================== */
+  setTimeout(() => {
+    if (!fired) {
+      window.location.href = "https://t.me/+ixSVQhqNf8cwZjU5";
+    }
+  }, 15000);
+</script>
 
 </body>
 </html>
+
 
